@@ -20,7 +20,7 @@ public class PostStorage {
     private static int count = 0;
 
     public static void add(Post post){
-        if(post.getText().equals("")) return;
+        if(post.getText().isEmpty()) return;
         post.setId(count());
         postStorage.put(post.getId(), post);
         count++;
