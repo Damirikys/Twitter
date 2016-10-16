@@ -10,15 +10,17 @@ import java.util.stream.Collectors;
 
 @RestController()
 public class RestPostController {
+    private User user = new User("Damir Armanov");
+    private PostStorage postStorage = user.getPostStorage();
 
     @RequestMapping("/posts")
-    public static String posts() {
-        String feed = PostStorage.getFeed();
+    public String posts() {
+        String feed = postStorage.getFeed();
 
         return "<html>" +
                 "   <link rel=\"stylesheet\" type=\"text/css\" href=\"/twitter.css\"/>" +
                 "<body>" +
-                "<h1>Messages"+ PostStorage.count() +"</h1>" +
+                "<h1>"+ user.getUsername() +" = "+ postStorage.count() +"</h1>" +
                 "<form action='addpost' method='post'>"+
                 "<input type='text' name='text'></input><button>Send</button>"+
                 "</form>"+
@@ -30,15 +32,15 @@ public class RestPostController {
     }
 
     @RequestMapping(value = "/addpost", method = RequestMethod.POST)
-    public static String addpost(@RequestParam(required = true) String text){
+    public String addpost(@RequestParam(required = true) String text){
         Post post = new Post(text);
-        PostStorage.add(post);
+        postStorage.add(post);
         return "<script>document.location.href = '/posts'</script>";
     }
 
     @RequestMapping(value = "/delpost", method = RequestMethod.GET)
-    public static String delpost(@RequestParam(required = true) int id){
-        PostStorage.remove(id);
+    public String delpost(@RequestParam(required = true) int id){
+        postStorage.remove(id);
         return "<script>document.location.href = '/posts'</script>";
     }
 }
