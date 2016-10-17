@@ -1,5 +1,6 @@
 package ru.urfu;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,41 +14,68 @@ public class TwitterApplicationTests {
 	private User user = new User("Damir Armanov");
 	private PostStorage postStorage = user.getPostStorage();
 
-	@Test
-	public void addPostTest() {
-		Post test_post = new Post("Test post");
-		postStorage.add(test_post);
-		assert postStorage.contains(test_post);
+	@Test(expected =  IllegalArgumentException.class)
+	public void addEmptyPostText() {
+		postStorage.add("");
+	}
+
+	@Test(expected =  IllegalArgumentException.class)
+	public void addNullPostText() {
+		postStorage.add(null);
+	}
+
+	@Test(expected =  IllegalArgumentException.class)
+	public void addLimitLengthPostText() {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i = 0; i < 200; i++)
+			stringBuilder.append(i);
+		postStorage.add(stringBuilder.toString());
 	}
 
 	@Test
-	public void addEmptyPostTest() {
-		int start_count = postStorage.count();
-		Post test_post = new Post("");
-		postStorage.add(test_post);
-		assert !postStorage.contains(test_post);
-		int finish_count = postStorage.count();
-		assert start_count == finish_count;
+	public void addNormalPostText() {
+		int oldCount = postStorage.count();
+		postStorage.add("Normal text");
+		Assert.assertEquals(oldCount + 1, postStorage.count());
 	}
 
 	@Test
-	public void removePostTest() {
-		Post test_post = new Post("Test post");
-		postStorage.add(test_post);
-		assert postStorage.contains(test_post);
-		assert postStorage.count() == 1;
-		postStorage.remove(test_post);
-		assert !postStorage.contains(test_post);
-		assert postStorage.count() == 0;
+	public void removePostItem() {
+		postStorage.add("Test remove 1");
+		postStorage.add("Test remove 2");
+		postStorage.add("Test remove 3");
+		postStorage.remove(1);
+
+		Assert.assertEquals(2, postStorage.count());
 	}
 
 	@Test
-	public void postsIdTest(){
-		for (int i = 0; i < 1000; i++)
-			postStorage.add(new Post(i+""));
-
-		for (int i = 0; i < postStorage.count(); i++)
-			assert postStorage.get(i).getId() == i;
+	public void addNewUser() {
+		int oldUsersCount = Users.size();
+		User user = new User("Username");
+		Assert.assertEquals(oldUsersCount + 1, Users.size());
 	}
+
+	@Test(expected =  IllegalArgumentException.class)
+	public void addEmptyUserTextName() {
+		User user = new User("");
+	}
+
+	@Test(expected =  IllegalArgumentException.class)
+	public void addNullUserTextName() {
+		User user = new User(null);
+	}
+
+	@Test(expected =  IllegalArgumentException.class)
+	public void addLimitLengthUserTextName() {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < 100; i++)
+			sb.append(i);
+
+		User user = new User(sb.toString());
+	}
+
+
 
 }

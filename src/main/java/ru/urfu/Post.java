@@ -2,31 +2,39 @@ package ru.urfu;
 
 
 public class Post {
+    private static final int POST_MAX_LENGHT_TEXT = 150;
+    private final String postId;
     private String text;
-    private int id;
+    private int index;
 
-    Post(String text){
-        setText(text.replace("<", "&lt;"));
-        setId(-1);
+    Post(String text, String postId) {
+        setText(text);
+        this.postId = postId;
     }
 
     private void setPost(Post post){
         setText(post.getText());
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setText(String text) throws IllegalArgumentException {
+        if(text == null || text.isEmpty() || text.length() > POST_MAX_LENGHT_TEXT)
+            throw new IllegalArgumentException("Invalid post text.");
+        this.text = text.replace("<", "&lt;");
     }
 
     public String getText(){
         return text;
     }
 
-    public int getId(){
-        return this.id;
+    public int getIndex(){
+        return this.index;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIndex(int id) {
+        this.index = id;
+    }
+
+    public String getPostId() {
+        return postId;
     }
 }

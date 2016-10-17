@@ -33,8 +33,7 @@ public class RestPostController {
 
     @RequestMapping(value = "/addpost", method = RequestMethod.POST)
     public String addpost(@RequestParam(required = true) String text){
-        Post post = new Post(text);
-        postStorage.add(post);
+        postStorage.add(text);
         return "<script>document.location.href = '/posts'</script>";
     }
 
