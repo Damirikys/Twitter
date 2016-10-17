@@ -1,7 +1,5 @@
 package ru.urfu;
 
-import java.util.HashMap;
-
 public class User {
     private static final int MAX_USER_NAME_LENGTH = 64;
     private final long userId;
@@ -9,9 +7,9 @@ public class User {
     private PostStorage postStorage;
 
     User(String name) {
-        this.userId = Users.size();
         setUsername(name);
-        postStorage = new PostStorage(userId);
+        this.userId = Users.getCountId();
+        postStorage = new PostStorage(this);
         Users.add(this);
     }
 

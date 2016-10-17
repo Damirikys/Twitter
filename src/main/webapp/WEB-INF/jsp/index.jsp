@@ -1,1 +1,1 @@
-<script>document.location = '/posts'</script>
+<script>document.location = '/users'</script>

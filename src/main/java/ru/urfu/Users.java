@@ -1,29 +1,37 @@
 package ru.urfu;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Users {
-    private static List<User> users = new LinkedList<>();
+    private static Map<Long, User> users = new LinkedHashMap<>();
+    private static long countId = 0;
 
     public static void add(User user) {
-        users.add(user);
+        users.put(countId, user);
+        countId++;
     }
 
-    public static void remove(int index) {
-        users.remove(index);
+    public static long getCountId(){
+        return countId;
     }
 
-    public static void remove(User user) {
-        users.remove(user);
+    public static List<User> getUserList(){
+        return new LinkedList<>(users.values());
+    }
+
+    public static void remove(long userId) {
+        users.remove(userId);
     }
 
     public static boolean contains(User user) {
-        return users.contains(user);
+        return users.containsValue(user);
     }
 
     public static int size(){
         return users.size();
+    }
+
+    public static User getUser(long userId){
+        return users.get(userId);
     }
 }

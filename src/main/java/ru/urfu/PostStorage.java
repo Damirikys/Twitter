@@ -16,47 +16,40 @@ import org.springframework.web.client.HttpServerErrorException;
 import javax.servlet.http.HttpServletResponse;
 
 public class PostStorage {
-    private HashMap<Integer, Post> postStorage;
-    private int count;
-    private final long userId;
+    private Map<Long, Post> postStorage;
+    private User user;
+    private int countId;
 
-    PostStorage(long userId){
-        this.userId = userId;
-        postStorage = new HashMap<>();
-        count = 0;
+    PostStorage(User user){
+        postStorage = new LinkedHashMap<>();
+        this.user = user;
+        countId = 0;
     }
 
-    public void add(String message){
-        Post post = new Post(message, userId+"_"+count);
-        if(post.getText().isEmpty()) return;
-        post.setIndex(count());
-        postStorage.put(post.getIndex(), post);
-        count++;
+    public void add(String text) throws IllegalArgumentException {
+        Post post = new Post(user, text, countId);
+        postStorage.put((long)countId, post);
+        countId++;
     }
 
-    public void remove(int id){
-        postStorage.remove(id);
-        count--;
+    public User getUser() {
+        return user;
     }
 
-    public Post get(int index){
-        return postStorage.get(index);
+    public void remove(long postId){
+        postStorage.remove(postId);
+    }
+
+    public Post get(long postId){
+        return postStorage.get(postId);
     }
 
     public int count(){
-        return count;
+        return postStorage.size();
     }
 
     public boolean contains(Post post){
         return postStorage.containsValue(post);
-    }
-
-    public int indexOf(Post post){
-        return postStorage.get(post).getIndex();
-    }
-
-    public long getUserId() {
-        return userId;
     }
 
     public String getFeed(){
@@ -70,7 +63,7 @@ public class PostStorage {
     }
 
     private String getPostTemplate(Post post){
-        return "<li>"+ post.getText()  +"   <span onclick=\"document.location.href='/delpost?id="+post.getIndex()+"'\">X</span></li>";
+        return "<li>"+ post.getText()  +"   <span onclick=\"document.location.href='/delpost?id="+post.getId()+"'\">X</span></li>";
     }
 
     public List<Post> getList(){
