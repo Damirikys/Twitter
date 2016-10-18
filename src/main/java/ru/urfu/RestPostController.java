@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 public class RestPostController {
     static {
         new User("Damir Armanov");
-        new User("Ilya Kuligin");
+        new User("Ilya Kulygin");
+        new User("Albert Imaev");
     }
 
     @RequestMapping(value = "/feed", method = RequestMethod.GET)

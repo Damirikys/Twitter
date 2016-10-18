@@ -63,7 +63,7 @@ public class PostStorage {
     }
 
     private String getPostTemplate(Post post){
-        return "<li>"+ post.getText()  +"   <span onclick=\"document.location.href='/delpost?id="+post.getId()+"'\">X</span></li>";
+        return "<li>"+ post.getText()  +"   <span onclick=\"document.location.href='/delpost?userId="+post.getAuthor().getUserId()+"&postId="+post.getId()+"'\">X</span></li>";
     }
 
     public List<Post> getList(){
