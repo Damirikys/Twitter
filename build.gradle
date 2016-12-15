@@ -11,6 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
@@ -26,8 +27,18 @@ repositories {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile group: 'org.springframework', name: 'spring-core', version: '4.3.3.RELEASE'
+	compile group: 'org.springframework', name: 'spring-web', version: '4.3.3.RELEASE'
+	compile group: 'javax.inject', name: 'javax.inject', version: '1'
+	compile group: 'com.h2database', name: 'h2', version: '1.4.191'
+	compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.0.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.0.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.4.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.4.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.4.1.RELEASE'
+	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.0.36'
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
